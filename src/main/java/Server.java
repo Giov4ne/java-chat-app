@@ -1,15 +1,14 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 public class Server {
     private static final int PORT = 3000;
 
     public static void main(String[] args) throws IOException {
         ServerSocket server = new ServerSocket(PORT);
-        Set<String> users = new HashSet<>();
+        HashMap<String, ClientHandler> users = new HashMap<>();
 
         System.out.println("Servidor iniciado na porta " + PORT);
 
