@@ -32,7 +32,8 @@ public class ClientHandler extends Thread {
                 users.put(user, this);
             }
 
-            sendMessageForAll(user + " entrou no servidor!");
+            output.println("Bem-vindo(a) ao servidor, " + user + "!");
+            sendMessageForAllExceptSelf(user + " entrou no servidor!");
 
             while(input.hasNextLine()) {
                 String message = input.nextLine();
@@ -106,8 +107,19 @@ public class ClientHandler extends Thread {
         }
     }
 
+    private void sendMessageForAllExceptSelf(String message) {
+        synchronized (users) {
+            for(String user : users.keySet()) {
+                if(user != this.user) {
+                    ClientHandler receiver = users.get(user);
+                    receiver.getOutput().println(message);
+                }
+            }
+        }
+    }
+
     private void closeConnection() {
-        output.println("fechando conexao...");
+        output.println("Você saiu do servidor!");
 
         synchronized (users) {
             users.remove(user);
