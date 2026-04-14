@@ -110,7 +110,7 @@ public class ClientHandler extends Thread {
     private void sendMessageForAllExceptSelf(String message) {
         synchronized (users) {
             for(String user : users.keySet()) {
-                if(user != this.user) {
+                if(!user.equals(this.user)) {
                     ClientHandler receiver = users.get(user);
                     receiver.getOutput().println(message);
                 }
