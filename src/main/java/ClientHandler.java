@@ -100,8 +100,7 @@ public class ClientHandler extends Thread {
 
     private void sendMessageForAll(String message) {
         synchronized (users) {
-            for(String user : users.keySet()) {
-                ClientHandler receiver = users.get(user);
+            for(ClientHandler receiver : users.values()) {
                 receiver.getOutput().println(message);
             }
         }
@@ -109,9 +108,8 @@ public class ClientHandler extends Thread {
 
     private void sendMessageForAllExceptSelf(String message) {
         synchronized (users) {
-            for(String user : users.keySet()) {
-                if(!user.equals(this.user)) {
-                    ClientHandler receiver = users.get(user);
+            for(ClientHandler receiver : users.values()) {
+                if(receiver != this) {
                     receiver.getOutput().println(message);
                 }
             }
