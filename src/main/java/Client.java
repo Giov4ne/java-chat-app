@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.EOFException;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -30,6 +31,9 @@ public class Client {
                     } else {
                         System.out.println(message);
                     }
+                } catch(EOFException e) {
+                    System.out.println("Conexão encerrada pelo servidor.");
+                    System.exit(0);
                 } catch(IOException e) {
                     if(!socket.isClosed()) {
                         e.printStackTrace();

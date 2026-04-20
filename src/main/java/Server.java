@@ -26,17 +26,18 @@ public class Server {
 
     private static void logClientConnection(Socket socket) throws IOException {
         File logDir = new File("logs");
+
         if (!logDir.exists()) {
             logDir.mkdirs();
         }
-        LocalDateTime now = LocalDateTime.now();
 
+        LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         String formattedDate = now.format(formatter);
-
         String connectionStr = socket.getInetAddress().getHostAddress() + " - " + formattedDate;
+        File logFile = new File(logDir, "client_connections_log.txt");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true));
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter("logs/client_connections_log.txt", true));
         writer.write(connectionStr);
         writer.newLine();
         writer.close();

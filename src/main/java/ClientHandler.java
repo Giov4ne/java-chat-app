@@ -175,10 +175,11 @@ public class ClientHandler extends Thread {
     private void closeConnection() {
         try {
             synchronized (users) {
-                users.remove(user);
+                if(users.get(user) == this) {
+                    users.remove(user);
+                    sendMessageForAll(user + " saiu do servidor!");
+                }
             }
-
-            sendMessageForAll(user + " saiu do servidor!");
 
             socket.close();
         } catch (IOException e) {
